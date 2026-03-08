@@ -1,6 +1,6 @@
 # SPEC: OUTBOUND_EDIT_PREVIEW_TAB — вкладка Preview в окне Edit Outbound
 
-> Эта спецификация **продолжает работу**, начатую в `todo/complete/OUTBOUNDS_CONFIGURATOR` (встроенный конфигуратор outbounds во вкладке Outbounds визарда и диалог Edit/Add Outbound).
+> Эта спецификация **продолжает работу**, начатую в `SPECS/008-F-C-OUTBOUNDS_CONFIGURATOR` (встроенный конфигуратор outbounds во вкладке Outbounds визарда и диалог Edit/Add Outbound).
 
 ## 1. Проблема
 

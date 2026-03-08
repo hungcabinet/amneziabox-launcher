@@ -59,9 +59,9 @@
 
 ---
 
-## 6. OUTBOUNDS_CONFIGURATOR: описание в todo/README
+## 6. OUTBOUNDS_CONFIGURATOR: описание в SPECS/README
 
-**Суть:** В `todo/README.md` в «Текущие фичи» для OUTBOUNDS_CONFIGURATOR указано «кнопка Config Outbounds» и окно.
+**Суть:** В `SPECS/README.md` в «Текущие фичи» для OUTBOUNDS_CONFIGURATOR указано «кнопка Config Outbounds» и окно.
 
 **Задача:** Обновить описание под текущую реализацию: встроенный конфигуратор во вкладке Outbounds, отдельные окна View и Edit/Add, единый overlay и один экземпляр View и Edit.
 
@@ -74,4 +74,4 @@
 - [x] Описать контракт «дочерние окна визарда» (регистрация, overlay, фокус, один экземпляр) в docs или в коде.
 - [x] Проверить скрытие overlay при закрытии всех rule dialogs; при необходимости добавить вызов UpdateChildOverlay после цикла.
 - [x] Обновить ARCHITECTURE.md под общий overlay и три типа дочерних окон.
-- [x] Обновить описание OUTBOUNDS_CONFIGURATOR в todo/README.md.
+- [x] Обновить описание OUTBOUNDS_CONFIGURATOR в SPECS/README.md.

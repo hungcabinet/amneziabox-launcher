@@ -102,4 +102,4 @@ if strings.HasPrefix(contentStr, "{") || strings.HasPrefix(contentStr, "[") {
 
 - Текущая логика: `core/config/subscription/decoder.go` (DecodeSubscriptionContent), `core/config/subscription/fetcher.go` (FetchSubscription), `core/config/subscription/source_loader.go` (LoadNodesFromSource), `ui/wizard/business/parser.go` (parseSubscriptionContent, CheckURL).
 - Модель ноды: `core/config/models.go` (ParsedNode), генерация outbound: `core/config/outbound_generator.go` (GenerateNodeJSON).
-- Конституция и стиль: `todo/constitution.md`, `todo/IMPLEMENTATION_PROMPT.md`.
+- Конституция и стиль: `SPECS/CONSTITUTION.md`, `SPECS/IMPLEMENTATION_PROMPT.md`.

@@ -102,7 +102,7 @@
 ## 7. Спецификации и разработка
 
 ### 7.1 Spec-driven
-- Крупные фичи — в `todo/` (папки `NNN-FEATURE_NAME/` или `FEATURE_NAME/`)
+- Крупные фичи и баги — в `SPECS/` (папки `NNN-T-S-NAME`, см. SPECS/README.md)
 - Структура: `SPEC.md`, `PLAN.md`, `TASKS.md`, `IMPLEMENTATION_REPORT.md`
 - SPEC — что и зачем; PLAN — как строить; TASKS — конкретные задачи
 
@@ -138,11 +138,11 @@
 ### 8.4 Документация
 - Пакеты — краткое описание в начале файла (package comment)
 - Публичные функции — docstring с назначением, параметрами, возвращаемым значением
-- Спецификации фич — в `todo/NNN-FEATURE/` или `todo/FEATURE/` (SPEC, PLAN, TASKS)
+- Спецификации фич и багов — в `SPECS/NNN-T-S-NAME/` (SPEC, PLAN, TASKS)
 - Языки документации русский и английский 
 
 ### 8.5 Implementation Prompt
-- При реализации фич следовать [`todo/IMPLEMENTATION_PROMPT.md`](IMPLEMENTATION_PROMPT.md) — философия разработки, требования к коду, Definition of Done
+- При реализации фич следовать [SPECS/IMPLEMENTATION_PROMPT.md](IMPLEMENTATION_PROMPT.md) — философия разработки, требования к коду, Definition of Done
 
 ---
 
