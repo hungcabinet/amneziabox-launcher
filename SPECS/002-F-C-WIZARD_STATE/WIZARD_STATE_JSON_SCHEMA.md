@@ -213,7 +213,7 @@
 ```json
 {
   "label": "My custom rule",
-  "type": "Domains/URLs",
+  "type": "urls",
   "enabled": true,
   "selected_outbound": "proxy-out",
   "description": "Route specific domains to proxy",
@@ -222,30 +222,29 @@
     "outbound": "proxy-out"
   },
   "default_outbound": "proxy-out",
-  "has_outbound": true
+  "has_outbound": true,
+  "params": {}
 }
 ```
 
 **Поля `PersistedCustomRule`:**
 - `label` (string, обязательное) — название правила
-- `type` (string, опциональное) — тип правила для отображения в UI:
-  - `"IP Addresses (CIDR)"` — правило с IP-адресами
-  - `"Domains/URLs"` — правило с доменами
-  - `"Processes"` — правило с процессами
-  - `"Custom JSON"` — произвольное правило
+- `type` (string, опциональное) — тип правила; только константы: `ips`, `urls`, `processes`, `srs`, `raw`. При отсутствии или старом формате тип выводится из `rule` при загрузке (DetermineRuleType).
 - `enabled` (boolean, обязательное) — включено ли правило
 - `selected_outbound` (string, обязательное) — выбранный outbound
 - `description` (string, опциональное) — описание правила
-- `rule` (object, опциональное) — JSON-объект правила (domain, domain_suffix, ip_cidr и т.д.)
+- `rule` (object, опциональное) — JSON-объект правила (domain, domain_suffix, ip_cidr, rule_set и т.д.)
 - `default_outbound` (string, опциональное) — outbound по умолчанию
 - `has_outbound` (boolean) — есть ли поле outbound в правиле
+- `params` (object, опциональное) — состояние UI по типу правила; в конфиг не попадает. Для **processes:** `match_by_path` (bool), `path_mode` ("Simple"|"Regex"). Для **urls:** `domain_regex` (bool). Для типов `ips`, `srs`, `raw` может не использоваться.
+- `rule_set` (array, опциональное) — только для типа `srs`: массив определений rule-set'ов в формате как в bin/wizard_template.json: `[{ "tag", "type", "format", "url" }, ...]`.
 
 **Пример:**
 ```json
 [
   {
     "label": "Work VPN domains",
-    "type": "Domains/URLs",
+    "type": "urls",
     "enabled": true,
     "selected_outbound": "proxy-out",
     "description": "Route work domains through VPN",
@@ -258,7 +257,7 @@
   },
   {
     "label": "Block trackers",
-    "type": "Domains/URLs",
+    "type": "urls",
     "enabled": true,
     "selected_outbound": "reject",
     "rule": {
@@ -336,7 +335,7 @@
   "custom_rules": [
     {
       "label": "Work domains",
-      "type": "Domains/URLs",
+      "type": "urls",
       "enabled": true,
       "selected_outbound": "proxy-out",
       "description": "Route work domains through VPN",

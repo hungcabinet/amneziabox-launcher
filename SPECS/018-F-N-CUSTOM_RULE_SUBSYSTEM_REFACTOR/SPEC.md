@@ -22,7 +22,7 @@
 
 ### 1.4 Нет типа правила SRS
 
-Нет возможности добавить пользовательское правило, которое использует **готовый rule-set в формате SRS по URL** (свой или сторонний .srs, например из runetfreedom), без ручного редактирования JSON. В диалоге Add Rule есть только IP, Domains/URLs, Processes, Custom JSON. В рамках этой задачи добавляется тип **SRS** (константа `srs`): выбор rule-set'ов из каталога и/или ручной ввод URL, сохранение и загрузка как у остальных custom rules. Полное описание UI, каталога runetfreedom, генерации tag и структуры данных — в **SPECS/014-F-N-RULE_TYPE_SRS_URL**.
+Нет возможности добавить пользовательское правило, которое использует **готовый rule-set в формате SRS по URL** (свой или сторонний .srs, например из runetfreedom), без ручного редактирования JSON. В диалоге Add Rule есть только IP, Domains/URLs, Processes, Custom JSON. В рамках этой задачи добавляется тип **SRS** (константа `srs`): выбор rule-set'ов из каталога и/или ручной ввод URL, сохранение и загрузка как у остальных custom rules. Полное описание UI, каталога runetfreedom, генерации tag и структуры данных — в **SPECS/014-F-C-RULE_TYPE_SRS_URL**.
 
 ### 1.5 Нет актуальной документации по хранению состояния в docs
 
@@ -37,7 +37,7 @@
 - **(1.1)** Ввести **чёткие константы типов правил** (ips, urls, processes, srs, raw) и использовать их везде в подсистеме Custom Rule (state, диалог, DetermineRuleType, схема/документация).
 - **(1.2)** Обеспечить **хранение полного состояния интерфейса** пользовательских правил: ввести поле **params** в элемент custom_rules и сохранять/восстанавливать по типам правил состояние UI (например Processes: Match by path, Simple/Regex; Domains/URLs: галочка «Regex»), чтобы после сохранения и перезагрузки диалог открывался в том же виде, в каком пользователь его оставил.
 - **(1.3)** В диалоге Add/Edit Rule должна быть вкладка **Raw** (редактирование JSON объекта правила) наравне с формой — по аналогии с Edit Outbound.
-- **(1.4)** Добавить тип правила **SRS** (константа `srs`): в диалоге Add/Edit Rule — выбор типа «SRS», выбор rule-set'ов (каталог runetfreedom: Geosite/GeoIP + список .srs, и/или ручной ввод URL), генерация tag и rule_set, сохранение в state (rule + rule_set). Детали — по **SPECS/014-F-N-RULE_TYPE_SRS_URL**.
+- **(1.4)** Добавить тип правила **SRS** (константа `srs`): в диалоге Add/Edit Rule — выбор типа «SRS», выбор rule-set'ов (каталог runetfreedom: Geosite/GeoIP + список .srs, и/или ручной ввод URL), генерация tag и rule_set, сохранение в state (rule + rule_set). Детали — по **SPECS/014-F-C-RULE_TYPE_SRS_URL**.
 - **(1.5)** Вынести **актуальную документацию по хранению состояния** (формат state.json, структура custom_rules, type, params, логика загрузки) в раздел **docs/** — отдельный документ или раздел в ARCHITECTURE, чтобы описание было в основной документации проекта, а не только внутри SPECS/002.
 
 ---
@@ -59,8 +59,10 @@
 | `ips` | IP-адреса (CIDR) |
 | `urls` | Домены/URL (domain, domain_suffix, domain_keyword, domain_regex) |
 | `processes` | Процессы (process_name или process_path_regex) |
-| `srs` | SRS rule-set по URL (rule_set — массив тегов, определения rule_set в state) |
+| `srs` | SRS rule-set по URL (rule_set — массив тегов в rule; определения rule_set в state — см. ниже) |
 | `raw` | Сырой JSON правила (вкладка Raw или «Custom JSON») |
+
+Для типа **`srs`** в PersistedCustomRule дополнительно хранится поле **`rule_set`** (опциональное, массив) — определения rule-set'ов в том же формате, что в **bin/wizard_template.json** у элементов selectable_rules (например «Russian blocked resources»): `[{ "tag", "type", "format", "url" }, ...]`. Поле **`rule`** хранит объект правила маршрутизации с ключом `rule_set` (тег или массив тегов) и при необходимости outbound/action. При загрузке из этих полей восстанавливаются Rule.RuleSets и Rule.Rule.
 
 Вводится механизм **угадывания типа правила по его содержимому** (при отсутствии или старом формате поля `type`). Работает только если в правиле есть **ровно одна** распознаваемая группа полей, задающая тип: только `ip_cidr` → `ips`; только domain/domain_suffix/domain_keyword/domain_regex → `urls`; только process_name или process_path_regex → `processes`; только `rule_set` (массив тегов) без ip_cidr/domain*/process* → `srs`. Во всех нестандартных случаях (несколько таких групп, ни одной, неизвестная структура) возвращается **`raw`**. **DetermineRuleType(rule)** реализует эту логику.
 
@@ -73,24 +75,24 @@
 ### 4.1 Код
 
 - **Константы типов:** один источник истины (файл с константами, например `rule_dialog.go` или пакет моделей). Значения: `ips`, `urls`, `processes`, `srs`, `raw` (множественное число).
-- **DetermineRuleType** (wizard_state_file.go): возвращать только эти константы; при необходимости маппить старые строки при загрузке из state.
+- **DetermineRuleType** (wizard_state_file.go): возвращать только эти константы. При загрузке из state тип не маппится со старых строк — при отсутствии или старом формате поля type тип выводится из rule вызовом DetermineRuleType(rule).
 - **Диалог Add/Edit Rule:** выбор типа по константам; при открытии на редактирование выставлять чекбокс по сохранённому `type` или по **DetermineRuleType(rule)**, если type отсутствует или в старом формате. Вкладка Raw — см. п. 4.3.
-- **PersistedCustomRule:** в JSON в state поле **Type** — только `ips`, `urls`, `processes`, `srs`, `raw`; для типа `srs` в state может храниться также массив определений rule_set (по SPEC 014); опциональное поле **Params** (`params`) — объект, контекстно зависимый от типа (раздел 3). При сохранении правила типа processes/urls записывать в params состояние соответствующих элементов UI; при загрузке — восстанавливать из params.
+- **PersistedCustomRule:** в JSON в state поле **Type** — только `ips`, `urls`, `processes`, `srs`, `raw`; для типа **`srs`** — опциональное поле **`rule_set`** (массив определений rule-set'ов, как в bin/wizard_template.json у selectable_rules с SRS); опциональное поле **Params** (`params`) — объект, контекстно зависимый от типа (раздел 3). При сохранении правила типа processes/urls записывать в params состояние соответствующих элементов UI; при загрузке — восстанавливать из params.
 
 ### 4.2 Документация
 
 - **WIZARD_STATE_JSON_SCHEMA.md** (и при необходимости WIZARD_STATE_MANAGEMENT_SPEC.md): описание поля `custom_rules[].type` привести к виду из раздела 3 (п. 3.2); добавить описание поля **`params`** (раздел 3 — назначение, контекстная зависимость, примеры для processes и urls, обратная совместимость).
-- **Актуальная документация в docs/:** создать или обновить в **docs/** документ по формату и логике хранения состояния визарда (state.json). Содержание:
-  - **Формат:** назначение файла state.json, версия формата, структура (version, id, comment, created_at, updated_at, parser_config, config_params, selectable_rule_states, custom_rules), описание элемента **custom_rules** (поля label, type, enabled, selected_outbound, description, rule, default_outbound, has_outbound, **params**), актуальные значения **type** (ips, urls, processes, srs, raw), вывод типа из rule при отсутствии/старом формате (DetermineRuleType), миграции (v1→v2).
-  - **Логика работы:** что хранится в объектах PersistedCustomRule (и в PersistedSelectableRuleState), в **каких файлах** хранится state (state.json текущего состояния, сохранённые состояния по ID и т.д.), **как распаковывается** при загрузке — кто читает файл, как вызываются ToRuleState / миграции, как модель визарда заполняется из загруженных custom_rules и selectable_rule_states (поток данных: файл → state store / presenter → модель).
-Варианты размещения: новый файл **docs/WIZARD_STATE.md** или отдельный раздел в **docs/ARCHITECTURE.md** со ссылкой на схему. Цель — чтобы описание формата и логики работы с state находилось в основной документации проекта, а не только в SPECS/002.
+- **Актуальная документация в docs/:**
+  - **docs/WIZARD_STATE.md** — формат файла state.json и структура JSON: назначение файла, версия формата, структура (version, id, comment, created_at, updated_at, parser_config, config_params, selectable_rule_states, custom_rules), описание элемента **custom_rules** (поля label, type, enabled, selected_outbound, description, rule, default_outbound, has_outbound, **params**, для типа srs — **rule_set**), актуальные значения **type** (ips, urls, processes, srs, raw), вывод типа из rule при отсутствии/старом формате (DetermineRuleType), миграции (v1→v2).
+  - **docs/ARCHITECTURE.md** — раздел про код и поток загрузки state: что хранится в PersistedCustomRule и PersistedSelectableRuleState, в **каких файлах** хранится state (state.json, сохранённые состояния по ID), **как распаковывается** при загрузке (кто читает файл, ToRuleState, миграции, заполнение модели визарда), с перекрёстными ссылками на docs/WIZARD_STATE.md.
+  Цель — описание формата и логики работы с state в основной документации проекта, а не только в SPECS/002.
 
 ### 4.3 Вкладка Raw
 
 - Две вкладки: **Form** и **Raw** (порядок: Form, затем Raw).
-- **Form:** текущий интерфейс с выбором типа по новым константам (ips, urls, processes, srs, raw) и полями по типу; для типа **srs** — выбор rule-set'ов (каталог runetfreedom Geosite/GeoIP + ручной ввод URL), см. **SPECS/014-F-N-RULE_TYPE_SRS_URL**; тип «raw» на форме соответствует произвольному JSON (как нынешний «Custom JSON»).
+- **Form:** текущий интерфейс с выбором типа по новым константам (ips, urls, processes, srs, raw) и полями по типу; для типа **srs** — выбор rule-set'ов (каталог runetfreedom Geosite/GeoIP + ручной ввод URL), см. **SPECS/014-F-C-RULE_TYPE_SRS_URL**; тип «raw» на форме соответствует произвольному JSON (как нынешний «Custom JSON»).
 - **Raw:** многострочное поле с JSON объекта route rule; при сохранении с активной вкладки Raw правило берётся из этого JSON (валидация: объект, наличие outbound/action). Rule name и при необходимости outbound — по форме.
-- При переключении Form → Raw в поле Raw подставляется JSON, собранный из текущей формы. При переключении Raw → Form — опционально парсить JSON и выставлять тип/поля формы; при неудаче оставить форму как есть или тип raw. При открытии диалога добавления — в Raw заготовка/пример; при редактировании — текущее правило в JSON.
+- При переключении Form → Raw в поле Raw подставляется JSON, собранный из текущей формы. При переключении Raw → Form — опционально парсить JSON и выставлять тип/поля формы; **при неудачном парсе** показать пользователю сообщение, что правило не удалось распознать и форму загрузить нельзя; оставить активной вкладку Raw и тип правила **raw**, форму не менять. При открытии диалога добавления — в Raw заготовка/пример; при редактировании — текущее правило в JSON.
 - Правило, сохранённое из вкладки Raw, в state хранится с типом **`raw`** (при сохранении из Raw явно выставлять тип `raw`).
 
 ---
@@ -110,14 +112,14 @@
 1. В state.json в `custom_rules[].type` встречаются только значения `ips`, `urls`, `processes`, `srs`, `raw`. Старые state при загрузке работают: тип при необходимости выводится из rule (DetermineRuleType).
 2. В коде один источник констант типов; DetermineRuleType и диалог используют только их.
 3. В WIZARD_STATE_JSON_SCHEMA.md описание полей `type` и **`params`** (раздел custom_rules / PersistedCustomRule) приведено к виду «как станет» (раздел 3).
-4. В **docs/** есть актуальная документация по формату и логике хранения состояния визарда: структура state.json, custom_rules (включая type и params), вывод типа из rule при отсутствии type, миграции; что хранится в PersistedCustomRule и где (какие файлы); как state распаковывается при загрузке (поток: файл → загрузка → модель). Размещение — отдельный документ (например docs/WIZARD_STATE.md) или раздел в ARCHITECTURE.
+4. В **docs/** есть актуальная документация: **docs/WIZARD_STATE.md** — формат файла state.json и структура JSON (custom_rules, type, params, rule_set для srs, миграции); в **docs/ARCHITECTURE.md** — раздел про код и поток загрузки state с перекрёстными ссылками на docs/WIZARD_STATE.md.
 5. В диалоге Add Rule / Edit Rule есть вкладки Form и Raw; на форме доступен тип **srs** (выбор rule-set'ов по SPEC 014); при сохранении из Raw тип правила — `raw`. Для типов processes и urls состояние UI сохраняется и восстанавливается через **`params`**.
 
 ---
 
 ## 7. Связанные документы и код
 
-- **Тип SRS (полное описание UI, каталог, структура):** SPECS/014-F-N-RULE_TYPE_SRS_URL
+- **Тип SRS (полное описание UI, каталог, структура):** SPECS/014-F-C-RULE_TYPE_SRS_URL
 - **Схема state (внутри задачи):** SPECS/002-F-C-WIZARD_STATE/WIZARD_STATE_JSON_SCHEMA.md (раздел custom_rules, поля PersistedCustomRule). После выполнения задачи актуальное описание должно быть также в **docs/** (п. 4.2).
 - **Документация проекта:** docs/ARCHITECTURE.md, docs/ (раздел документации)
 - **Код:** ui/wizard/dialogs/rule_dialog.go (константы), ui/wizard/dialogs/add_rule_dialog.go (диалог), ui/wizard/models/wizard_state_file.go (DetermineRuleType, PersistedCustomRule)
