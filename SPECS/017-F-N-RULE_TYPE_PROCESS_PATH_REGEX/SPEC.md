@@ -19,16 +19,17 @@
 
 ### 2.1 Расширение UI типа Processes
 
-- В блоке типа **Processes** добавить чекбокс **«Match by path»**.
+- Выбор типа правила: **четыре чекбокса** (IP Addresses (CIDR), Domains/URLs, Processes, Custom JSON). Всегда выбран ровно один тип; повторное нажатие на выбранную галочку не меняет выбор. При открытии диалога **создания** по умолчанию выбрана первая позиция (IP); при **редактировании** — тип из сохранённого правила.
+- В строке с чекбоксом **Processes** по центру — чекбокс **«Match by path»** (в одной строке с Processes).
 - **Match by path снят (по умолчанию):**
-  - Видны текущие элементы: подпись «Processes (select one or more via popup):», кнопка «Select Processes...», список выбранных имён. Сохранение — в `process_name` (массив имён), как сейчас.
+  - Видны: подпись «Processes (select one or more via popup):», кнопка «Select Processes...», список выбранных имён. Сохранение — в `process_name` (массив имён), как сейчас.
 - **Match by path включён:**
   - Скрыть кнопку «Select Processes...» и список выбранных имён.
-  - Показать переключатель **Simple** / **Regex** (радио или сегмент) и многострочное поле ввода (одна строка — один шаблон).
-  - **Simple:** подсказка: можно использовать `*` как «любая последовательность символов»; при сохранении `*` заменяется на `(.*)`, остальные символы экранируются для regex. Примеры: `*/steam/*`, `*\\Steam\\*`, `C:\Games\*`.
-  - **Regex:** подсказка: ввод — готовые регулярные выражения; при сохранении строки записываются в `process_path_regex` без преобразований, только проверка валидности (например `regexp.Compile`).
+  - Показать переключатель **Simple** / **Regex** и многострочное поле ввода (одна строка — один шаблон). Placeholder поля меняется при переключении Simple/Regex; для Regex — указание, что ввод «как есть», без обёртки вида /regex/i.
+  - **Simple:** подсказка: можно использовать `*` как «любая последовательность»; при сохранении `*` → `(.*)`, остальные символы экранируются для regex. Примеры: `*/steam/*`, `*\\Steam\\*`, `C:\Games\*`.
+  - **Regex:** подсказка: готовые регулярные выражения; при сохранении строки записываются в `process_path_regex` без преобразований, только проверка валидности (`regexp.Compile`).
   - Результат в обоих режимах — массив regex-строк в поле **`process_path_regex`** (без `process_name`).
-- В одном правиле типа Processes используется **либо** `process_name`, **либо** `process_path_regex` — в зависимости от чекбокса. Режим Simple/Regex в state не сохраняем: в rule всегда массив regex; при открытии на редактирование показываем сохранённые строки, переключатель по умолчанию — **Regex** (пользователь видит фактический regex).
+- В одном правиле типа Processes используется **либо** `process_name`, **либо** `process_path_regex` — в зависимости от чекбокса. Режим Simple/Regex в state не сохраняем: в rule всегда массив regex; при открытии на редактирование показываем сохранённые строки, переключатель — **Regex**.
 
 ### 2.2 Преобразование и валидация при сохранении
 
@@ -75,4 +76,4 @@
 ## 5. Связанные документы
 
 - sing-box Route Rule: https://sing-box.sagernet.org/configuration/route/rule/ (`process_path_regex` since 1.10.0).
-- Реализация: `ui/wizard/dialogs/add_rule_dialog.go` (Processes, process_name), `ui/wizard/models/wizard_state_file.go` (DetermineRuleType, PersistedCustomRule).
+- Реализация: `ui/wizard/dialogs/add_rule_dialog.go`, `ui/wizard/dialogs/rule_type_selection.go` (микро-модель выбора типа), `ui/wizard/dialogs/rule_dialog.go` (SimplePatternToRegex), `ui/wizard/models/wizard_state_file.go` (DetermineRuleType, PersistedCustomRule).
