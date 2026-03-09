@@ -48,6 +48,7 @@
 - **011–012** — баги (B): launcher-freeze-after-sleep (C), update-reload-clash-config (O)
 - **013–014, 016** — фичи в работе/плане (F-N): LOCALIZATION, RULE_TYPE_SRS_URL, SUBSCRIPTION_JSON_ARRAY
 - **017** — фича завершена (F-C): RULE_TYPE_PROCESS_PATH_REGEX (Match by path)
+- **018** — фича в плане (F-N): CUSTOM_RULE_SUBSYSTEM_REFACTOR (объединяющая: константы типов ips/urls/processes/raw, вкладка Raw, params в custom_rules, документация по state в docs/)
 - **015** — исследование закрыто (Q-C): TELEMETRY
 
 Подробное описание каждой задачи — в SPEC.md соответствующей папки.
