@@ -73,3 +73,13 @@
 ### 6. Заметка по имени папки
 
 Папка: **`023-F-C-SUBSCRIPTION_TRANSPORT_VLESS_TROJAN`** — статус **C (Complete)**.
+
+### 7. Дополнение: abvpn, нормализация тегов, Clash API (2026-03-20)
+
+- **WS + только `sni`:** `uriTransportFromQuery` для `ws` выставляет `headers.Host` из `host`, иначе из `sni`. VMess `net=ws` — то же через `queryGetFold` + `sni`.
+- **REALITY TCP без `flow`:** в `buildOutbound` (VLESS), если `flow` пуст, есть `pbk` и нет транспорта из `uriTransportFromQuery` → `outbound["flow"] = "xtls-rprx-vision"`. gRPC/xhttp REALITY без автодобавления flow.
+- **`internal/textnorm.NormalizeProxyDisplay`:** UTF-8 + замена `❯`/`»`/`›` на ` > `; вызывается в парсере (лейбл/теги), `source_loader` после префикса до `MakeTagUnique`, Clash `ProxyInfo.DisplayName`, визард.
+- **`api/clash.go`:** `GetDelay` — `PathEscape(proxyName)`, `QueryEscape` для параметра `url`; `SwitchProxy` — `PathEscape(group)`, тело `json.Marshal(map{"name":proxy})`. Устраняет 404 на пинге тегов с пробелами.
+- **UI Servers / трей:** подписи `DisplayOrName()`, API-вызовы по `Name`.
+- Тесты: `TestParseNode_VLESS_TransportAndTLS` (abvpn WS, REALITY TCP flow), `abvpn-style grpc reality` без flow; `api/clash_url_test.go`.
+- Документация: `docs/ParserConfig.md`, `docs/ARCHITECTURE.md`, `docs/release_notes/upcoming.md`, **SPEC § 2.9–2.11**, **TASKS** (дополнения).

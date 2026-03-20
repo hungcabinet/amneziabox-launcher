@@ -51,6 +51,18 @@
 - `go test` для пакетов `core/config/subscription`, `core/config`.
 - Обновить `docs/release_notes/upcoming.md`.
 
+### 2.9 WebSocket: заголовок Host при отсутствии `host` в query
+
+Подписки (в т.ч. abvpn) часто задают `type=ws`, `sni=…`, `path=…` **без** параметра `host`. Для reverse proxy / vhost клиент должен отправлять корректный **Host** на WebSocket. Парсер заполняет `transport.headers.Host` из **`host`**, а при его отсутствии — из **`sni`** (VLESS/Trojan через `uriTransportFromQuery`, VMess — в ветке `buildOutbound` для `net=ws`).
+
+### 2.10 VLESS REALITY по TCP без `flow` в URI
+
+Многие ссылки с `security=reality`, `pbk`, `sid`, `type=tcp` **не** содержат `flow=`. Для совместимости с ожиданиями серверов sing-box outbound получает **`flow: xtls-rprx-vision`**, если в URI нет `flow`, задан `pbk` и **нет** отдельного транспорта `ws` / `grpc` / `http` / `xhttp` (для gRPC+xhttp REALITY дефолтный flow не добавляется).
+
+### 2.11 Clash API и теги с пробелами / Unicode
+
+Имена outbound в sing-box могут содержать пробелы и спецсимволы (после нормализации отображаемых имён или в исходном теге). Запросы **`GET /proxies/{name}/delay`** и **`PUT /proxies/{group}`** должны **кодировать** сегмент пути (`PathEscape`); тело `PUT` с выбором прокси — валидный JSON (`json.Marshal` для поля `name`). Иначе возможен **404 Resource not found** при пинге. См. `api/clash.go`, SPECS/023 TASKS (дополнения).
+
 ### 2.7 Поля транспортов sing-box (документация)
 
 Официально: [V2Ray Transport](https://sing-box.sagernet.org/configuration/shared/v2ray-transport/). Ниже — **все поля** схемы по типу и **краткое назначение**; откуда в URI подписки — если маппинг есть в парсере 023.
@@ -58,7 +70,7 @@
 | Тип | Назначение (по доке) | Поля схемы | Источник в подписке (VLESS/Trojan URI) |
 |-----|----------------------|------------|----------------------------------------|
 | **HTTP** | Plain HTTP 1.1 поверх TCP; TLS задаётся отдельно в `tls` outbound. | `type`, `host` ([]string), `path`, `method`, `headers`, `idle_timeout`, `ping_timeout` | `type=http` или **`type=raw`/`tcp` + `headerType=http`**: `path`, `host`; остальное не из URI |
-| **WebSocket** | Транспорт WebSocket: путь и заголовки запроса. | `type`, `path`, `headers`, `max_early_data`, `early_data_header_name` | `type=ws`: `path`, `host` → `headers.Host` |
+| **WebSocket** | Транспорт WebSocket: путь и заголовки запроса. | `type`, `path`, `headers`, `max_early_data`, `early_data_header_name` | `type=ws`: `path`, `host` → `headers.Host`; если **`host` в URI нет** — **`sni`** → `headers.Host` (часто в подписках только `sni`) |
 | **QUIC** | QUIC (без доп. полей в схеме). | `type` | `type=quic` (редко) |
 | **gRPC** | gRPC; **service name** сервиса. | `type`, `service_name`, `idle_timeout`, `ping_timeout`, `permit_without_stream` | `type=grpc`: `serviceName` или `path` → `service_name` |
 | **HTTPUpgrade** | HTTP Upgrade; в Xray в ссылках часто как `xhttp`. | `type`, `host` (string), `path`, `headers` | `type=xhttp`: `host`, `path`; **`mode` не переносится** (нет в схеме) |
