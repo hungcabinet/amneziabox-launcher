@@ -29,5 +29,6 @@
 
 ## Проверки
 
-- [ ] `go vet ./...`, `go build ./...`, `go test ./...` (GUI — CONSTITUTION).
+- [ ] `go vet ./...`, `go build ./...`, `go test ./...` (полный прогон — CONSTITUTION / Fyne+CGO или CI).
+- [x] Выборочно: `go vet ./core/config/... ./ui/wizard/business/...`, `go test` по тем же пакетам — успешно.
 - [ ] Ручная проверка: Edit, exclude, expose, превью outbounds.
