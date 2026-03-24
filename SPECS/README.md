@@ -60,6 +60,6 @@
 - **024** — фича завершена (F-C): WIZARD_DNS_SECTION (вкладка DNS в визарде; см. **SPEC.md**)
 - **025** — фича завершена (F-C): SERVERS_CONTEXT_MENU_SHARE_URI (ПКМ на вкладке Servers, share URI из config.json outbounds/endpoints; см. **IMPLEMENTATION_REPORT.md**)
 - **026** — закрыта (F-C): WIZARD_SOURCE_EDIT_LOCAL_OUTBOUNDS (вкладка Sources: **Edit** — Настройки/Просмотр; локальные auto/select с маркерами **WIZARD:**; `exclude_from_global` / `expose_group_tags_to_global`; см. **SPEC.md**)
-- **027** — закрыта (F-N): WIZARD_RULES_LIBRARY (единый **`custom_rules`**, библиотека пресетов **Add from library**, миграция v2→v3; **`selectable_rules`** в шаблоне — пресеты; см. **SPEC.md**, **docs/WIZARD_STATE.md**)
+- **027** — завершена (F-C): WIZARD_RULES_LIBRARY (единый **`custom_rules`**, библиотека пресетов **Add from library**, миграция v2→v3; **`selectable_rules`** в шаблоне — пресеты; см. **SPECS/027-F-C-WIZARD_RULES_LIBRARY/SPEC.md**, **docs/WIZARD_STATE.md**)
 
 Подробное описание каждой задачи — в SPEC.md соответствующей папки.

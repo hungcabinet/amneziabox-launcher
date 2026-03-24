@@ -21,7 +21,7 @@
 
 ## Этап 4: Закрытие
 
-- [ ] Ручная проверка (чеклист):
+- [x] Ручная проверка (чеклист) — выполнено при приёмке; задача закрыта **2026-03-24**.
   1. **Новый профиль / нет `state.json`:** открыть Rules — список совпадает с пресетами шаблона с `"default": true`, порядок как в `wizard_template.json`; Final и outbound на строках осмысленны; Save → в `state.json` есть `rules_library_merged`, нет `selectable_rule_states`.
   2. **Add from library:** отметить 1–2 пресета → **Add selected** — копии в конце; тот же пресет ещё раз — вторая копия; Preview/Save — в `route.rules` порядок совпадает со списком (сверху базовые rules шаблона, например hijack-dns).
   3. **Пустой список:** удалить все правила (если возможно) или временный state с `custom_rules: []` и `rules_library_merged: true` — empty state + «Open library» / Add Rule.

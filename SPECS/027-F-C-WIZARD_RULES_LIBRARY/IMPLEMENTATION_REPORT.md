@@ -2,7 +2,7 @@
 
 ## Статус
 
-Реализовано по **SPEC.md** / **PLAN.md** / **TASKS.md**.
+**Закрыто (Complete):** 2026-03-24. Реализовано по **SPEC.md** / **PLAN.md** / **TASKS.md**. Папка задачи: **`SPECS/027-F-C-WIZARD_RULES_LIBRARY`** (статус **F-C** по Spec Kit).
 
 ## Сделано
 
@@ -22,7 +22,7 @@
 
 ### UI
 
-- **`rules_tab.go`**: панель **Add Rule** / **Add from library**, пустое состояние, список строк с отдельным **`widget.Check`**, подпись с тултипом, outbound **Select**, **↑↓** Edit Del, SRS по типу.
+- **`rules_tab.go`**: над скроллом одна строка — **Add Rule** / **Add from library** и подпись столбца **Outbound:**; в скролле строки с **`widget.Check`**, **↑↓** (тултипы), подпись (**Border**), SRS, Edit/Del, outbound **Select** без дублирования «Outbound:» в каждой строке.
 - **`library_rules_dialog.go`**: модалка, чекбоксы, подсветка выбранных строк, **Add selected** — append клонов в **`CustomRules`**.
 
 ### Локализация и тесты
