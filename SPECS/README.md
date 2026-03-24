@@ -61,5 +61,6 @@
 - **025** — фича завершена (F-C): SERVERS_CONTEXT_MENU_SHARE_URI (ПКМ на вкладке Servers, share URI из config.json outbounds/endpoints; см. **IMPLEMENTATION_REPORT.md**)
 - **026** — закрыта (F-C): WIZARD_SOURCE_EDIT_LOCAL_OUTBOUNDS (вкладка Sources: **Edit** — Настройки/Просмотр; локальные auto/select с маркерами **WIZARD:**; `exclude_from_global` / `expose_group_tags_to_global`; см. **SPEC.md**)
 - **027** — завершена (F-C): WIZARD_RULES_LIBRARY (единый **`custom_rules`**, библиотека пресетов **Add from library**, миграция v2→v3; **`selectable_rules`** в шаблоне — пресеты; см. **SPECS/027-F-C-WIZARD_RULES_LIBRARY/SPEC.md**, **docs/WIZARD_STATE.md**)
+- **028** — завершена (F-C): WIZARD_LIST_ROW_HOVER (подсветка строк списка при наведении: **Rules**, **Sources**, **Outbounds** (конфигуратор), **DNS**, модал библиотеки; **HoverRow** + **WireTooltipLabelHover** + **HoverForward*** / **HoverForwardTTButton** для SRS; **SPECS/028-F-C-WIZARD_LIST_ROW_HOVER/SPEC.md**)
 
 Подробное описание каждой задачи — в SPEC.md соответствующей папки.
