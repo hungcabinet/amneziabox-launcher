@@ -87,6 +87,8 @@ flowchart LR
 
 **Решение:** **`@имя`** разрешён только для имён из **`vars`**; иначе шаблон не загрузится (**`ValidateWizardTemplate`**).
 
+**Позже:** **`default_value`** — не только скаляр: JSON-объект с ключами **`linux`** / **`darwin`** / **`windows`**, псевдоним **`win7`** (только **windows/386**), **`default`** — см. **`VarDefaultValue`** в **`vars_default.go`** и **docs/CREATE_WIZARD_TEMPLATE**. Элемент **`{"separator": true}`** рисует линию на **Settings**, без **`name`** и без записи в **`state.vars`**. **macOS:** выключение **`tun`** на **Settings** — сначала **Stop** ядра; затем при необходимости привилегированное удаление кеша в **`bin/`** и логов **`logs/sing-box.log`** / **`.old`** (**`settings_tun_darwin.go`**, см. гайд по шаблону).
+
 ### 2.2. Как это лежит в `state.json`
 
 Переопределения пользователя — массив пар строк (имя из шаблона):

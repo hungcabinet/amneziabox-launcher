@@ -7,7 +7,8 @@
 - [x] Обновить **`bin/wizard_template.json`**: **`vars`**, **`@…`**, **`"if": ["tun"]`** для TUN на **`darwin`**, **`if_or`**, без **`darwin-tun`**.
 - [x] Задокументировать: при **`params.if` / `if_or`** переменная с **`vars[].platforms`**, не содержащим текущую ОС, даёт **false** (независимо от **`state.vars`**); SPEC, PLAN, **docs/CREATE_WIZARD_TEMPLATE** (EN/RU), **docs/ARCHITECTURE.md**, **docs/WIZARD_STATE.md**; юнит-тесты в **`vars_resolve_test.go`**.
 - [x] Расширить десериализацию корня шаблона: **`Vars`**, **`TemplateParam.If`**.
-- [x] Валидация: все **`@name`** объявлены; **`if`** только на **`bool`**-имена (PLAN §13); уникальность **`name`**.
+- [x] Валидация: все **`@name`** объявлены; **`if`** только на **`bool`**-имена (PLAN §13); уникальность **`name`**; **`{"separator": true}`** без конфликта с полями переменной (**`template_validate.go`**).
+- [x] **`default_value`**: тип **`VarDefaultValue`** (скаляр или объект **`GOOS`/`win7`/`default`**); **`tun_stack`** в шаблоне; **`vars_default.go`** / тесты.
 
 ## Этап B — Разрешение и подстановка
 
@@ -26,7 +27,7 @@
 ## Этап D — UI Settings
 
 - [x] Вкладка **Settings** (предпоследняя перед Preview): **`wizard.go`** + **`settings_tab.go`** (или аналог).
-- [x] Строки из **`TemplateData.Vars`**, **`wizard_ui`**, **`platforms`**; подписи из **`comment`** (EN).
+- [x] Строки из **`TemplateData.Vars`**, **`wizard_ui`**, **`platforms`**; подписи **`title`** / **`tooltip`** (локали); разделители **`separator`** (**`settingsSeparatorBlock`** в **`settings_tab.go`**).
 - [x] Контролы: text, bool, enum, **text_list** (многострочное, ~3 строки min).
 - [x] Дефолт / Сброс / запись в модель и в сериализуемый **`vars`** по SPEC.
 

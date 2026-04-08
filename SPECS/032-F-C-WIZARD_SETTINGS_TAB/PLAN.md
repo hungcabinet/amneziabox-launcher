@@ -21,7 +21,7 @@
 1. Добавить корневой массив **`vars`** (сводная таблица в SPEC): **`tun_address`**, **`tun_mtu`**, **`tun`**, **`mixed_listen_port`**, **`log_level`**, **`clash_api`**, **`clash_secret`**, при необходимости **`apply_tun_sniff_rules`** и др.
 2. В **`config`**: литералы **`@clash_api`**, **`@clash_secret`**, **`@log_level`** в согласованных узлах (белый список путей — п. 4).
 3. В **`params`**: заменить фиксированные значения на **`@…`** где нужно (TUN **`address`**, **`mtu`**, mixed **`listen_port`** на **`darwin`**); для macOS TUN-блока добавить **`"if": ["tun"]`**.
-4. Валидация при загрузке: каждый **`@<name>`** имеет объявление в **`vars`**; каждый **`if`** ссылается на существующее **`name`**; **`name`** уникальны.
+4. Валидация при загрузке: каждый **`@<name>`** имеет объявление в **`vars`**; каждый **`if`** ссылается на существующее **`name`**; **`name`** уникальны среди переменных; элементы **`{"separator": true}`** без **`name`** (см. **`validateVarsSeparator`** в **`template_validate.go`**).
 
 **Файлы:** `bin/wizard_template.json`, парсинг в `ui/wizard/template/loader.go` (или вынесенный парсер структуры корня шаблона).
 
@@ -29,7 +29,7 @@
 
 ## 2. Структуры Go
 
-1. **`TemplateVar`** (или аналог): поля как в SPEC (`name`, `type`, `default_value`, `default_node`, `options`, `wizard_ui`, `platforms`, `comment`).
+1. **`TemplateVar`**: поля как в SPEC, включая **`Separator bool`**, **`default_value`** как **`VarDefaultValue`** (скаляр или объект платформенных ключей — **`vars_default.go`**).
 2. Расширить корневую структуру десериализации шаблона: **`Vars []TemplateVar`**.
 3. **`TemplateParam`:** поле **`If []string`** (имена из **`vars`**), опционально; пусто = как сейчас.
 4. **`TemplateData`:** хранить **`Vars`**, при необходимости кэш map **`name` → var** для быстрого доступа.
@@ -85,8 +85,9 @@
 3. Контролы: **`text`**, **`bool`**, **`enum`**, **`text_list`** — для **`text_list`** одно **многострочное** поле, строки списка разделять **переносами**; разумная минимальная высота ~**3** строки (как у соседних форм).
 4. Режим дефолта / «Сброс» / отсутствие записи в **`state.vars`** — по SPEC.
 5. Подписи: текст из **`comment`** в **`vars`** (**английский**), формулировки — нормальные пользовательские строки, не черновик; отдельные ключи **`wizard.settings.*`** в **`en.json`** не обязательны, пока в проекте не принято иное (можно добавить сразу, если выгоднее единообразию с другими табами).
+6. **macOS:** снятие bool **`tun`** — блок при **`RunningState.IsRunning()`**; иначе привилегированное удаление кеша **`experimental.cache_file`** под **`bin/`** (если есть) и **`logs/sing-box.log`** / **`.old`** под **`ExecDir`** (см. SPEC, **docs/CREATE_WIZARD_TEMPLATE**, **`settings_tun_darwin.go`**).
 
-**Файлы:** новый `ui/wizard/tabs/settings_tab.go` (или аналог), `ui/wizard/wizard.go`, `ui/wizard/presentation/*.go`, `ui/wizard/models/wizard_model.go`.
+**Файлы:** `ui/wizard/tabs/settings_tab.go`, **`settings_tun_darwin.go`** / **`settings_tun_stub.go`**, `ui/wizard/wizard.go`, `ui/wizard/presentation/*.go`, `ui/wizard/models/wizard_model.go`.
 
 ---
 

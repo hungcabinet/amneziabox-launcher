@@ -107,6 +107,8 @@
 
 Итог: при сохранённом профиле с включённым TUN на macOS в **config.json** оказываются оба inbound (tun и mixed); при следующем Start лаунчер по **ConfigHasTun** запросит пароль.
 
+**Выключение TUN в визарде (Settings):** если пользователь снимает галочку у переменной с **`name`**: **`tun`**, пока **RunningState** считает ядро запущенным — снятие блокируется (сообщение, чекбокс возвращается). После **Stop** при необходимости вызывается **RunWithPrivileges** с одним **`rm -rf`** по списку: **`experimental.cache_file.path`** из эффективного шаблона (только внутри **`bin/`**, если есть) и логи **`logs/sing-box.log`** / **`logs/sing-box.log.old`** рядом с **`ExecDir`**, если существуют (**`ui/wizard/tabs/settings_tun_darwin.go`**, **`EffectiveConfigSection`**, **`config.ExperimentalCacheFileFromSection`**). Подробнее — **docs/CREATE_WIZARD_TEMPLATE.md** (подраздел **macOS: turning `tun` off**).
+
 *Исторически (до 032):* галочка TUN была на вкладке **Rules**, значение шло в **config_params** как **enable_tun_macos**; API **GetEffectiveConfig(..., enableTunForDarwin bool)** и поле **EnableTunForMacOS** в модели — сняты.
 
 ---
@@ -158,9 +160,9 @@
 
 - **core/controller.go** — поля **SingboxPrivilegedMode**, **SingboxPrivilegedPID**, **SingboxPrivilegedSingboxPID**, **SingboxPrivilegedPIDFile**; в **GracefulExit** — **platform.FreePrivilegedAuthorization()** на darwin.
 - **core/process_service.go** — константы **privilegedScriptName**, **privilegedPidFileName**, **privilegedPkillPattern**; **buildPrivilegedKillByPatternScript()**. Start: на darwin **ConfigHasTun** → при true startSingBoxPrivileged (пути по константам, cd + sing-box &, два PID из RunWithPrivileges, pid-файл две строки, Wait4 + onPrivilegedScriptExited); при ошибке ConfigHasTun — **hasTun = false** (обычный запуск без пароля); Stop: kill обоих PID через RunWithPrivileges; при диалоге «already running» на darwin — kill через RunWithPrivileges + buildPrivilegedKillByPatternScript(); getTrackedPID с учётом привилегированного режима.
-- **core/config/config_loader.go** — **ConfigHasTun(configPath)** для выбора привилегированного старта на darwin.
+- **core/config/config_loader.go** — **ConfigHasTun(configPath)** для выбора привилегированного старта на darwin; **ExperimentalCacheFileFromSection** для пути кеша при выключении **`tun`** в визарде.
 - **internal/platform/privileged_darwin.go** — кэш **g_privilegedAuthRef**, runWithPrivileges (две строки из pipe, без Free после использования), **freePrivilegedAuthorization**; Go: **FreePrivilegedAuthorization()**, **WaitForPrivilegedExit(pid)**.
 - **internal/platform/privileged_stub.go** — заглушки RunWithPrivileges (0, 0, err), WaitForPrivilegedExit, FreePrivilegedAuthorization.
-- **ui/wizard** (конфиг с TUN): **template/loader.go** — **GetEffectiveConfig**, **matchesPlatform** (**GOOS**; Win7-сборка матчит **windows**), **`if` / `if_or`**; **vars_default.go** / **vars_resolve.go** — платформенный **`default_value`** (**windows/386**, **`tun_stack`**); **SettingsVars**, **MaterializeClashSecretIfNeeded**; шаблон **bin/wizard_template.json**: **darwin** + **`if`** для TUN/mixed и **`if_or`** для **route.rules** (см. актуальный JSON).
+- **ui/wizard** (конфиг с TUN): **template/loader.go** — **GetEffectiveConfig**, **matchesPlatform** (**GOOS**; Win7-сборка матчит **windows**), **`if` / `if_or`**; **vars_default.go** / **vars_resolve.go** — платформенный **`default_value`** (**windows/386**, **`tun_stack`**); **SettingsVars**, **MaterializeClashSecretIfNeeded**; **tabs/settings_tun_darwin.go** — блок снятия **`tun`** при Running + привилегированный rm кеша; **business/create_config.go** — **EffectiveConfigSection**; шаблон **bin/wizard_template.json**: **darwin** + **`if`** для TUN/mixed и **`if_or`** для **route.rules** (см. актуальный JSON).
 
 Сборка: `CGO_ENABLED=1 GOOS=darwin go build .` проходит успешно; возможны предупреждения линкера (например, дубликат `-lobjc`), на работу не влияют.
