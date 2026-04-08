@@ -47,7 +47,7 @@
 - **001–010** — завершённые фичи (F-C): FEATURES_2025, WIZARD_STATE, UNIFIED_CONFIG_TEMPLATE, SRS_LOCAL_DOWNLOAD, DOWNLOAD_FAILED_MANUAL, PING_ERROR_TOOLTIP, DIAGNOSTICS_LOG_VIEWER, OUTBOUNDS_CONFIGURATOR, WIREGUARD_URI, OUTBOUND_EDIT_PREVIEW_TAB
 - **011–012** — баги (B): launcher-freeze-after-sleep (C), update-reload-clash-config (O)
 - **013** — фича завершена (F-C): LOCALIZATION
-- **016** — фича в работе/плане (F-N): SUBSCRIPTION_JSON_ARRAY
+- **016** — закрыта без реализации (F-C): SUBSCRIPTION_JSON_ARRAY (JSON-массив sing-box подписок; код не внедрялся; референс для **033** и будущей реализации; **SPECS/016-F-C-SUBSCRIPTION_JSON_ARRAY/**)
 - **014** — фича закрыта без отдельной реализации (F-C): RULE_TYPE_SRS_URL (содержание перенесено в 018)
 - **017** — фича завершена (F-C): RULE_TYPE_PROCESS_PATH_REGEX (Match by path)
 - **018** — фича в плане (F-N): CUSTOM_RULE_SUBSYSTEM_REFACTOR (объединяющая: константы типов ips/urls/processes/raw, вкладка Raw, params в custom_rules, документация по state в docs/)
@@ -65,5 +65,7 @@
 - **029** — исследование (Q-С): SUBSCRIPTION_PARSER_CLASH_CONVERTOR_PARITY (доработки парсера подписок под **sing-box**, реализованы; папка исторически от сравнения с [clash-convertor](https://github.com/DikozImpact/clash-convertor); **SPECS/029-Q-С-SUBSCRIPTION_PARSER_CLASH_CONVERTOR_PARITY/SPEC.md**)
 - **030** — баг в плане (B-N): WINDOWS_FOREGROUND_FOCUS_LOSS (Windows: периодический слёт фокуса ввода в других приложениях при работающем лаунчере; поиск причины и корреляция с UI/треем; **SPECS/030-B-N-WINDOWS_FOREGROUND_FOCUS_LOSS/SPEC.md**)
 - **031** — фича завершена (F-С): LINUX_SINGBOX_LOOKPATH (Linux: сначала `exec.LookPath("sing-box")`, иначе `<ExecDir>/bin/sing-box`; установка ядра из лаунчера — только в локальный `bin/`; **SPECS/031-F-С-LINUX_SINGBOX_LOOKPATH/SPEC.md**)
+- **032** — фича в плане (F-N): WIZARD_SETTINGS_TAB (вкладка **Settings** в визарде: TUN, Clash API, log и др.; **SPECS/032-F-N-WIZARD_SETTINGS_TAB/SPEC.md**)
+- **033** — фича в плане (F-N): SUBSCRIPTION_XRAY_JSON_ARRAY (подписка как JSON-массив **Xray/V2Ray** полных конфигов, `dialerProxy` + пер-серверный SOCKS → sing-box **`detour`**; **SPECS/033-F-N-SUBSCRIPTION_XRAY_JSON_ARRAY/SPEC.md**)
 
 Подробное описание каждой задачи — в SPEC.md соответствующей папки.

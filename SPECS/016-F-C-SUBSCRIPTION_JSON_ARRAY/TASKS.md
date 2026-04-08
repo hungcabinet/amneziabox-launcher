@@ -1,5 +1,9 @@
 # Задачи: Поддержка подписок в формате JSON-массива конфигов
 
+**Задача закрыта без реализации** (2026-04-08). Пункты ниже не выполнялись. См. **IMPLEMENTATION_REPORT.md** и **SPECS/033-F-N-SUBSCRIPTION_XRAY_JSON_ARRAY**.
+
+---
+
 ## Этап 1: Декодер и распознавание формата
 
 - [ ] В `core/config/subscription/decoder.go`: для контента с `strings.HasPrefix(contentStr, "[")` выполнить проверку `json.Valid(content)`; если true — вернуть `(content, nil)` и залогировать распознавание формата «JSON array of configs», не возвращать ошибку «JSON configuration instead of subscription list».
