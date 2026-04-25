@@ -255,12 +255,14 @@ func NewAppController(appIconData, greyIconData, greenIconData, redIconData []by
 	// Initialize StateService
 	ac.StateService = services.NewStateService()
 
+	ac.StateService.SetAutoUpdateEnabled(false)
+
 	// Check if config file exists before starting auto-update
-	if _, err := os.Stat(ac.FileService.ConfigPath); os.IsNotExist(err) {
-		debuglog.InfoLog("Auto-update: Config file does not exist (%s), auto-update disabled", ac.FileService.ConfigPath)
-		ac.StateService.SetAutoUpdateEnabled(false)
-	}
-	go ac.startAutoUpdateLoop()
+	// if _, err := os.Stat(ac.FileService.ConfigPath); os.IsNotExist(err) {
+	// 	debuglog.InfoLog("Auto-update: Config file does not exist (%s), auto-update disabled", ac.FileService.ConfigPath)
+	// 	ac.StateService.SetAutoUpdateEnabled(false)
+	// }
+	// go ac.startAutoUpdateLoop()
 
 	// Set global singleton instance
 	instanceOnce.Do(func() {
