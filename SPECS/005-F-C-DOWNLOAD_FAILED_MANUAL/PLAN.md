@@ -48,7 +48,7 @@
 ### 2.1 internal/constants/constants.go
 
 - Добавить константы:
-  - `SingboxReleasesURL = "https://github.com/SagerNet/sing-box/releases"`
+  - `SingboxReleasesURL = "https://github.com/hungcabinet/amnezia-box/releases"`
   - `WintunHomeURL = "https://www.wintun.net/"`
 
 ### 2.2 internal/dialogs/dialogs.go

@@ -38,7 +38,7 @@ const (
 
 // Manual download URLs (shown when automatic download fails)
 const (
-	SingboxReleasesURL = "https://github.com/SagerNet/sing-box/releases"
+	SingboxReleasesURL = "https://github.com/hungcabinet/amnezia-box/releases"
 	WintunHomeURL      = "https://www.wintun.net/"
 )
 

@@ -77,8 +77,8 @@ type CoreVersionInfo struct {
 	Error            string
 }
 
-// FallbackVersion — фиксированная версия, если не удаётся получить последнюю через API (синхронизировать с https://github.com/SagerNet/sing-box/releases/tag/v1.13.6).
-const FallbackVersion = "1.13.6"
+// FallbackVersion — фиксированная версия, если не удаётся получить последнюю через API (синхронизировать с https://github.com/hungcabinet/amnezia-box/releases/tag/1.13.8).
+const FallbackVersion = "1.13.8"
 
 // GetLatestCoreVersion получает последнюю версию sing-box (с fallback на фиксированную версию)
 func (ac *AppController) GetLatestCoreVersion() (string, error) {
@@ -86,8 +86,8 @@ func (ac *AppController) GetLatestCoreVersion() (string, error) {
 		name string
 		url  string
 	}{
-		{"GitHub API", "https://api.github.com/repos/SagerNet/sing-box/releases/latest"},
-		{"GitHub Mirror (ghproxy)", "https://ghproxy.com/https://api.github.com/repos/SagerNet/sing-box/releases/latest"},
+		{"GitHub API", "https://api.github.com/repos/hungcabinet/amnezia-box/releases/latest"},
+		{"GitHub Mirror (ghproxy)", "https://ghproxy.com/https://api.github.com/repos/hungcabinet/amnezia-box/releases/latest"},
 	}
 
 	for _, source := range sources {

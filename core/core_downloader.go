@@ -125,9 +125,9 @@ func (ac *AppController) getReleaseInfo(ctx context.Context, version string) (*R
 
 // getReleaseInfoFromGitHub gets release information from GitHub
 func (ac *AppController) getReleaseInfoFromGitHub(ctx context.Context, version string) (*ReleaseInfo, error) {
-	url := fmt.Sprintf("https://api.github.com/repos/SagerNet/sing-box/releases/tags/v%s", version)
+	url := fmt.Sprintf("https://api.github.com/repos/hungcabinet/amnezia-box/releases/tags/%s", version)
 	if version == "" {
-		url = "https://api.github.com/repos/SagerNet/sing-box/releases/latest"
+		url = "https://api.github.com/repos/hungcabinet/amnezia-box/releases/latest"
 	}
 
 	// Используем универсальный HTTP клиент
@@ -480,7 +480,7 @@ func (ac *AppController) downloadFileFromURL(ctx context.Context, url, destPath 
 
 // extractVersionAndFileName extracts version and file name from GitHub URL
 func (ac *AppController) extractVersionAndFileName(url string) (string, string) {
-	// GitHub URL format: https://github.com/SagerNet/sing-box/releases/download/v1.12.12/sing-box-1.12.12-windows-amd64.zip
+	// GitHub URL format: https://github.com/hungcabinet/amnezia-box/releases/download/1.12.12/sing-box-1.12.12-windows-amd64.zip
 	parts := strings.Split(url, "/")
 	for i, part := range parts {
 		if strings.HasPrefix(part, "v") && len(part) > 1 {

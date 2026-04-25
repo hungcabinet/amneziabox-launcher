@@ -5,7 +5,7 @@
 [![Go Version](https://img.shields.io/badge/Go-1.24%2B-blue)](https://golang.org/)
 [![Version](https://img.shields.io/badge/version-0.8.6-blue)](https://github.com/Leadaxe/singbox-launcher/releases)
 
-Cross-platform GUI launcher for [sing-box](https://github.com/SagerNet/sing-box) - universal proxy client.
+Cross-platform GUI launcher for [sing-box](https://github.com/hungcabinet/amnezia-box) - universal proxy client.
 
 **Repository**: [https://github.com/Leadaxe/singbox-launcher](https://github.com/Leadaxe/singbox-launcher)
 
@@ -70,10 +70,10 @@ Cross-platform GUI launcher for [sing-box](https://github.com/SagerNet/sing-box)
 
 Most Windows users run sing-box like this:
 
-- 📁 `sing-box.exe` + `config.json` in the same folder  
-- ⚫ Black CMD window always open  
-- ✏️ To switch a node: edit JSON in Notepad → kill the process → run again  
-- 📝 Logs disappear into nowhere  
+- 📁 `sing-box.exe` + `config.json` in the same folder
+- ⚫ Black CMD window always open
+- ✏️ To switch a node: edit JSON in Notepad → kill the process → run again
+- 📝 Logs disappear into nowhere
 - 🔄 Manual restart every time you change config
 
 ### ✅ The Solution
@@ -82,27 +82,27 @@ This launcher solves all of that. Everything is controlled from one clean GUI:
 
 ### 🎯 What it gives you
 
-- 🚀 **One-click start/stop for TUN mode**  
-- 📝 **Full access to `config.json` inside the launcher**  
+- 🚀 **One-click start/stop for TUN mode**
+- 📝 **Full access to `config.json` inside the launcher**
   (edit → save → sing-box restarts automatically)
-- 🔄 **Auto-parsing of any subscription type**  
-  (vless / vmess / trojan / ss / hysteria / hysteria2 / tuic)  
+- 🔄 **Auto-parsing of any subscription type**
+  (vless / vmess / trojan / ss / hysteria / hysteria2 / tuic)
   + filters by tags and regex
-- 🌐 **Server selection with ping via Clash Meta API**  
-- 🔧 **Diagnostics tools**: IP-check, STUN test, process killer  
+- 🌐 **Server selection with ping via Clash Meta API**
+- 🔧 **Diagnostics tools**: IP-check, STUN test, process killer
 - 📊 **System tray integration + readable logs**
 
 **🔗 Links:**
-- **GitHub:** https://github.com/Leadaxe/singbox-launcher  
+- **GitHub:** https://github.com/Leadaxe/singbox-launcher
 - **Example config:** https://github.com/Leadaxe/singbox-launcher/blob/main/bin/config.example.json
 
 ## 📋 Requirements
 
 ### Windows
 - **Recommended systems:** Windows 10/11 (x64)
-- **Compatibility mode:** Windows 7 (x86/x64) via a separate legacy build `singbox-launcher-<version>-win7-32.zip`  
+- **Compatibility mode:** Windows 7 (x86/x64) via a separate legacy build `singbox-launcher-<version>-win7-32.zip`
   In this mode the launcher uses a fixed legacy `sing-box` version (1.13.2, 32-bit) and 32-bit `wintun.dll`, both working on Win7 x86 and Win7 x64.
-- [sing-box](https://github.com/SagerNet/sing-box/releases) (executable file)
+- [sing-box](https://github.com/hungcabinet/amnezia-box/releases) (executable file)
 - [WinTun](https://www.wintun.net/) (wintun.dll) - MIT license, can be distributed
 
 ### macOS
@@ -110,7 +110,7 @@ This launcher solves all of that. Everything is controlled from one clean GUI:
 **Requirements:**
 - **Universal build** (recommended): macOS 11.0+ (Big Sur or newer) - supports both Apple Silicon and Intel Macs
 - **Intel-only build**: macOS 10.15+ (Catalina or newer) - Intel Macs only
-- [sing-box](https://github.com/SagerNet/sing-box/releases) (executable file)
+- [sing-box](https://github.com/hungcabinet/amnezia-box/releases) (executable file)
 
 ### Linux
 
@@ -118,7 +118,7 @@ This launcher solves all of that. Everything is controlled from one clean GUI:
 
 **Requirements:**
 - Modern Linux distribution (x64)
-- [sing-box](https://github.com/SagerNet/sing-box/releases) (executable file)
+- [sing-box](https://github.com/hungcabinet/amnezia-box/releases) (executable file)
 
 If you can help test on Linux, please open an issue or pull request on GitHub!
 
@@ -126,7 +126,7 @@ If you can help test on Linux, please open an issue or pull request on GitHub!
 
 ### Windows
 
-1. Download the latest release from [GitHub Releases](https://github.com/Leadaxe/singbox-launcher/releases)  
+1. Download the latest release from [GitHub Releases](https://github.com/Leadaxe/singbox-launcher/releases)
    - for Windows 10/11 (x64) — regular Windows release archive;
    - for Windows 7 (x86/x64) — `singbox-launcher-<version>-win7-32.zip` legacy build.
 2. Extract the archive to any folder (e.g., `C:\Program Files\singbox-launcher`)
@@ -201,7 +201,7 @@ Replace `v0.8.6` with the version you want to install.
    chmod +x singbox-launcher
    ./singbox-launcher
    ```
-   
+
    The launcher will automatically download `sing-box` and other required files on first launch.
 
 **We're looking for help**: If you can test on Linux and provide feedback, please open an issue on [GitHub Issues](https://github.com/Leadaxe/singbox-launcher/issues)!
@@ -305,7 +305,7 @@ The Config Wizard provides a visual interface for configuring sing-box without m
      - Rules marked with `@default` directive are enabled by default
      - Configure outbound selectors for each rule
      - Rules with `?` button have descriptions (hover or click to view)
-   
+
    - **Custom Rules**: Create your own routing rules
      - Click **"➕ Add Rule"** button to create a new rule
      - Choose rule type: **IP Addresses (CIDR)** or **Domains/URLs**
@@ -315,7 +315,7 @@ The Config Wizard provides a visual interface for configuring sing-box without m
      - Click **"✏️"** (edit) button to modify an existing custom rule
      - Click **"❌"** (delete) button to remove a custom rule
      - Custom rules appear in the same list as template rules
-   
+
    - **Final Outbound**: Select default outbound for unmatched traffic
    - **Preview Auto-refresh**: Preview automatically regenerates when you switch to Preview tab after making changes
    - Scrollable list (70% of window height)
@@ -886,7 +886,7 @@ Commercial licensing from Leadaxe is available for uses that are not compatible 
 
 ## 🙏 Acknowledgments
 
-- [SagerNet/sing-box](https://github.com/SagerNet/sing-box) - for excellent proxy client
+- [hungcabinet/amnezia-box](https://github.com/hungcabinet/amnezia-box) - for excellent proxy client
 - [Fyne](https://fyne.io/) - for cross-platform UI framework
 - All project contributors
 

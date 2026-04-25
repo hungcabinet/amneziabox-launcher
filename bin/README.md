@@ -48,7 +48,7 @@
    ```bash
    # Windows (в командной строке)
    copy bin\config.example.json bin\config.json
-   
+
    # macOS/Linux
    cp bin/config.example.json bin/config.json
    ```
@@ -64,7 +64,7 @@
 
 Если в релизе нет `sing-box` или `wintun.dll`, скачайте их:
 
-- **sing-box**: [https://github.com/SagerNet/sing-box/releases](https://github.com/SagerNet/sing-box/releases)
+- **sing-box**: [https://github.com/hungcabinet/amnezia-box/releases](https://github.com/hungcabinet/amnezia-box/releases)
 - **wintun.dll** (только Windows): [https://www.wintun.net/](https://www.wintun.net/)
 
 Поместите скачанные файлы в папку `bin/`.
@@ -109,7 +109,7 @@ singbox-launcher/
 
 This release includes prebuilt `sing-box.exe` (Windows) / `sing-box` (macOS/Linux) from the official project:
 
-**Source:** [https://github.com/SagerNet/sing-box](https://github.com/SagerNet/sing-box)  
+**Source:** [https://github.com/hungcabinet/amnezia-box](https://github.com/hungcabinet/amnezia-box)
 **License:** GPL-3.0
 
 ### Лицензии
@@ -131,7 +131,7 @@ This release includes prebuilt `sing-box.exe` (Windows) / `sing-box` (macOS/Linu
 ## 🔗 Ссылки
 
 - **Репозиторий проекта**: [https://github.com/Leadaxe/singbox-launcher](https://github.com/Leadaxe/singbox-launcher)
-- **Официальный sing-box**: [https://github.com/SagerNet/sing-box](https://github.com/SagerNet/sing-box)
+- **Официальный sing-box**: [https://github.com/hungcabinet/amnezia-box](https://github.com/hungcabinet/amnezia-box)
 - **Документация sing-box**: [https://sing-box.sagernet.org/](https://sing-box.sagernet.org/)
 
 ## 🆘 Поддержка

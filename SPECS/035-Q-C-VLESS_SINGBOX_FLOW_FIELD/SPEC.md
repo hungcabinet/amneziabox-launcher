@@ -19,7 +19,7 @@
 
 Репозиторий **sing-box**, ветка по умолчанию **`testing`** (см. `default_branch` на GitHub):
 
-- [`option/vless.go`](https://github.com/SagerNet/sing-box/blob/testing/option/vless.go) — структура `VLESSOutboundOptions`.
+- [`option/vless.go`](https://github.com/hungcabinet/amnezia-box/blob/testing/option/vless.go) — структура `VLESSOutboundOptions`.
 
 Репозиторий **sing-vmess** (зависимость sing-box для клиента VLESS):
 

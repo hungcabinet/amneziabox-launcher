@@ -24,7 +24,7 @@
    - опционально: кнопка «Open folder» (открывает целевую папку в проводнике ОС);
    - кнопка «Close». Диалог собирается через `internal/dialogs.NewCustom`.
 3. **Охват ресурсов:**
-   - **sing-box** — при ошибке `DownloadCore` (Core Dashboard): ссылка на https://github.com/SagerNet/sing-box/releases, папка `bin/`.
+   - **sing-box** — при ошибке `DownloadCore` (Core Dashboard): ссылка на https://github.com/hungcabinet/amnezia-box/releases, папка `bin/`.
    - **wintun.dll** — при ошибке `DownloadWintunDLL`: ссылка на https://www.wintun.net/, папка `bin/`.
    - **wizard_template.json** — при ошибке загрузки шаблона (кнопка в Core Dashboard или отсутствие файла при открытии визарда / при «New» в Load State): ссылка из `GetTemplateURL()`, папка `bin/`.
    - **SRS (rule-set файлы)** — при ошибке `DownloadSRS` в визарде: ссылка на первый URL из правила, папка `bin/rule-sets/`.
